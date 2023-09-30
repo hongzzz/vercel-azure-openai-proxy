@@ -1,12 +1,12 @@
 // The name of your Azure OpenAI Resource for GPT-3.5 and GPT-4.
-const resourceNameGPT35 = process.env.RESOURCE_NAME_GPT35;
-const resourceNameGPT4 = process.env.RESOURCE_NAME_GPT4;
+const resourceNameGPT35 = 'hongzzz-gpt';
+const resourceNameGPT4 = 'hongzzz-gpt';
 
 // The deployment name you chose when you deployed the model for GPT-3.5 and GPT-4.
-const deployNameGPT35 = process.env.DEPLOY_NAME_GPT35;
-const deployNameGPT4 = process.env.DEPLOY_NAME_GPT4;
+const deployNameGPT35 = 'gpt-35-turbo';
+const deployNameGPT4 = 'gpt-4';
 
-const apiVersion = "2023-03-15-preview";
+const apiVersion = "2023-08-01-preview";
 
 async function handleRequest(request,res, path) {
   if (request.method === 'OPTIONS') {
@@ -25,7 +25,7 @@ async function handleRequest(request,res, path) {
     res.status(404).send('404 Not Found');
     return;
   }
-  
+
   let body;
   if (request.method === 'POST') {
     body = request.body;
@@ -34,7 +34,7 @@ async function handleRequest(request,res, path) {
   const { resourceName, deployName } = getModelMapper(modelName);
 
   const fetchAPI = `https://${resourceName}.openai.azure.com/openai/deployments/${deployName}/${path}?api-version=${apiVersion}`
-  
+
   const authKey = request.get('Authorization');
   if (!authKey) {
     res.status(403).send('Not allowed');
